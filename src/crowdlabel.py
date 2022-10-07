@@ -1,11 +1,12 @@
-
-
-
-class CrowdLabelServer:
+class CrowdLabel:
     def __init__(self) -> None:
         pass
-
-class CrowdLabelWeb:
-    def __init__(self) -> None:
+    def create_task(self):
         pass
-
+    def create_user(self,
+            type: str,
+            username: str,
+            password: str, 
+            email: str,
+            phone: str,):
+        pass
