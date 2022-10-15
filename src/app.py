@@ -1,23 +1,29 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from crowdlabel import CrowdLabel
 
 server = CrowdLabel()
 app = Flask(__name__)
 
 @app.route('/')
-def index(request=None):
+def index():
     return render_template('index.html')
 
-@app.route('/login', methods = ['GET', 'POST'])
-def login(request=None):
-    if request.method == 'GET':
+@app.route('/home')
+def home():
+    return redirect('/')
 
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    if request.method == 'GET':
         return render_template('login.html')
     elif request.method == 'POST':
+        print('json', request.get_json(force=True))
+        return 'test'
         # TODO: handle user login
         pass
 
-def register(request=None, methods = ['GET', 'POST']):
+@app.route('/register', methods = ['GET', 'POST'])
+def register():
     if request.method == 'GET':
 
         return render_template('register.html')
@@ -26,11 +32,11 @@ def register(request=None, methods = ['GET', 'POST']):
         pass
 
 @app.route('/admin')
-def admin(request=None):
+def admin():
     return 'admin'
 
 @app.route('/about')
-def about(request=None):
+def about():
     return 'Software Engineering 2022 fall group project'
 
 if __name__ == '__main__':
