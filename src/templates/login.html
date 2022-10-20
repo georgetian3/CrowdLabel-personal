@@ -3,17 +3,19 @@
 Login page
 
 {% block content %}
-  <form action="/login" method="post">
-      <label for="username"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" required>
+<form action="/login" method="post">
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
 
-      <label for="password"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" required>
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter email" name="email" required>
 
-      <button type="submit">Login</button>
-      <label>
+    <button type="submit">Login</button>
+    <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
-      </label>
+    </label>
     </div>
-  </form>
+</form>
 {% endblock %}
