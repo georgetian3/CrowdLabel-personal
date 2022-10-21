@@ -1,3 +1,20 @@
 {% extends 'base.html' %}
 
-Register page
+Login page
+
+{% block content %}
+<form action="/register" method="post">
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter email" name="email" required>
+    <button type='button'>SendCode</button>
+    <label for="code"><b>Code</b></label>
+    <input type="text" placeholder="Code" name="code" required>
+    <button type="submit">Login</button>
+    </div>
+</form>
+{% endblock %}
