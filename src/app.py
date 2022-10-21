@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect
 from crowdlabel import CrowdLabel
 from checkLogin import exist_user, is_existed
+from register import add_user
 server = CrowdLabel()
 app = Flask(__name__)
 
@@ -42,7 +43,15 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     elif request.method == 'POST':
-        # TODO: handle user registration
+        username = request.form['username']
+        password = request.form['password']
+        if exist_user(username):
+            login_massage = "温馨提示：用户已存在，请直接登录"
+            return render_template('register.html', message=login_massage)
+        else:
+            add_user(request.form['username'], request.form['password'])
+            return render_template('index.html', username=username)
+
         pass
 
 
