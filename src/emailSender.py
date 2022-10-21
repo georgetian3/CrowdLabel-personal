@@ -10,9 +10,9 @@ class EmailSender:
         self.app.config['MAIL_SERVER'] = 'smtp.163.com'
         # SMTP服务器端口，一般为465
         self.app.config['MAIL_PORT'] = 465
-        # 是否启用SSL加密（反正很牛逼的东西）
+        # 是否启用SSL加密
         self.app.config['MAIL_USE_SSL'] = True
-        # 是否启用TLS加密（反正很牛逼的东西）
+        # 是否启用TLS加密
         self.app.config['MAIL_USE_TLS'] = False
         # 登入的邮箱，例如2731510961@qq.com，不能使用无法其他服务的邮箱，例如snbckcode@gmail.com不能使用smtp.qq.com
         self.app.config['MAIL_USERNAME'] = 'crowdlabel@163.com'
