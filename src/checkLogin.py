@@ -15,7 +15,7 @@ def is_existed(username, password):
         return True
 
 
-def exist_user(username):
+def username_exists(username):
     sql = "SELECT * FROM user WHERE username ='%s'" % (username)
     conn.ping(reconnect=True)
     cur.execute(sql)
