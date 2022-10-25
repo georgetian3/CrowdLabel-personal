@@ -4,6 +4,8 @@
 
 总体来说，除了项目介绍 PPT 上的需求，甲方没有提出太多的额外需求。甲方提到的需求中包含了必有以及可选的需求。在设计以及计划此项目的过程中，我们准备实现所有必有的需求，并且尽量实现可选的需求。具体甲方需求请参考附件 A。
 
+\newpage
+
 \subsection{竟品调研}
 
 \subsubsection{亚马逊土耳其机器人}
@@ -11,5 +13,41 @@
 亚马逊土耳其机器人（Amazon Mechanical Turk/MTurk）是亚马逊运营的众包平台。在 2018 年，此平台每时每刻有 100,000 可用的任务接收者，以及 2,000 工作的任务接收者。由于多种不同的限制，无法使用一些功能，因此以下对此平台的分析并非全面。
 
 \begin{enumerate}
-    \item 登录：
+    \item 主页（图 \ref{fig:home}）：介绍 MTurk 平台，显示任务发布者以及任务接收者的登录按钮
+    \item 登录（图 \ref{fig:login}）：由于只有收到邀请的用户才能够以任务接收者的身份注册，因此无法以任务接收者登录。点击以任务发布者登录后，可以使用 Amazon 或 AWS 帐号登录，或者注册帐号
+    \item 任务模板（图 \ref{fig:template}）：在没有创建任务的状态下，直接跳转到任务模板页面。它们分成四大类：问卷、视觉、语言、以及其他。但是其中用户的输入类型只有以下若干个：
+    \begin{multicols}{2}
+        \begin{itemize}
+            \item 单选
+            \item 多选
+            \item 排序
+            \item 打分
+            \item 自由回答
+            \item 图片画框
+            \item 图片画多边形
+            \item 图片点击
+        \end{itemize}
+    \end{multicols}
+    其他任务类型可以分解成为以上的类型之一。比如，“keypoint” 模板需要用户在同一题中在图片上点击多个位置。但这等价于多个问题，每个问题共享同一个图片，而每个问题只需要点击图片上的一个点。
+
+    \item 任务属性（图 \ref{fig:properties}）：选择了模板后，用户需要填写任务的基本信息其中包括：
+    \begin{multicols}{2}
+        \begin{itemize}
+            \item 项目名字
+            \item 任务名字
+            \item 任务描述
+            \item 任务关键词
+            \item 任务报酬
+            \item 任务完成人数（即需要几个不同的接收放完成任务）
+            \item 任务完成时间
+            \item 任务截止时间
+            \item 自动检验并发放报酬时间
+            \item 是否需要拥有“Masters”（即回答质量较高的）资质的接收方
+            \item 接收方资质
+            \item 任务是否含有成人内容
+        \end{itemize}
+    \end{multicols}
+    \item 任务格式（图 \ref{fig:layout}）：用户可以使用 HTML + CSS + JS 定义任务显示格式。亚马逊提供了使用 Crowd HTML Elements Library 中的自定义标签的默认显示格式。
+    \item 任务预览（图 \ref{fig:preview}）：用户确认以上的选项并保存项目。
+    \item 任务发布（图 \ref{fig:publish}）：用户将跳转回自己的任务的列表，并可以编辑、拷贝、删除、或发布之前创建的任务。只有点击发布任务后，平台要求用户上传包含任务数据的 CSV 文件。平台会使用上传的数据以及创建项目时定义的显示格式制造出用户最后看到的任务。
 \end{enumerate}
