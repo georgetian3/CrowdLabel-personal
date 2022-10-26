@@ -2,17 +2,17 @@ from config import conn
 cur = conn.cursor()
 
 
-def is_existed(username, password):
+def correct_credentials(username, password):
     sql = "SELECT * FROM user WHERE username ='%s' and password ='%s'" % (
         username, password)
     conn.ping(reconnect=True)
     cur.execute(sql)
     conn.commit()
     result = cur.fetchall()
-    if (len(result) == 0):
-        return False
+    if len(result) > 1:
+        raise ValueError('Duplicate credentials')
     else:
-        return True
+        return len(result) == 1
 
 
 def username_exists(username):
@@ -21,7 +21,7 @@ def username_exists(username):
     cur.execute(sql)
     conn.commit()
     result = cur.fetchall()
-    if (len(result) == 0):
-        return False
+    if len(result) > 1:
+        raise ValueError(f'Duplicate username: {str(result[0])}')
     else:
-        return True
+        return len(result) == 1
