@@ -1,6 +1,6 @@
 from checkers.user import check_username
 from checkers.user import *
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from database import User
 from argon2 import PasswordHasher
@@ -23,9 +23,14 @@ def register_add_user(username, password, usertype, email, status):
     if not check_email(email):
         print('email')
         return 'email'
+    print("________")
     print(password)
+    temp = password
     password = hasher.hash(password)
-    con = Connection()
+    print("________")
+    print(password)
+    hasher.verify(password, temp)
+    con = scoped_session(Connection)
     user = User(username=username, password=password,
                 email=email, type=usertype, status=status)
     con.add(user)

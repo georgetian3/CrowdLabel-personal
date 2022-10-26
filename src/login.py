@@ -1,26 +1,29 @@
 from checkers.user import check_username, check_password
-from config import conn
-
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import create_engine
+from database import User
+from sqlalchemy import and_
 from argon2 import PasswordHasher
 hasher = PasswordHasher()
 
-cur = conn.cursor()
+engine = create_engine(
+    "mysql+pymysql://root:cxq1974328@127.0.0.1:3306/crowdlabel?charset=utf8")
+Connection = sessionmaker(bind=engine)
 
 
 def login(username: str, password: str):
     if (not check_username(username) or
-        not check_password(password)):
+            not check_password(password)):
 
         return False
 
     password = hasher.hash(password)
-
-    sql = "SELECT * FROM user WHERE username ='%s' and password ='%s'" % (
-        username, password)
-    conn.ping(reconnect=True)
-    cur.execute(sql)
-    conn.commit()
-    correct_credentials = bool(len(cur.fetchall()))
+    con = scoped_session(Connection)
+    res = con.query(User).filter(
+        and_(User.username == username, User.password == password))
+    correct_credentials = bool(len(res.all()))
 
     if correct_credentials:
-        pass
+        return "ok"
+    else:
+        return "false"
