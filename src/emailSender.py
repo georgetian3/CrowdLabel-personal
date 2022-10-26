@@ -1,6 +1,9 @@
+from typing import Iterable
 from flask import Flask
 import flask_mail
 
+
+CROWDLABEL_EMAIL = 'crowdlabel@163.com'
 
 # 异步发送邮件
 class EmailSender:
@@ -20,17 +23,22 @@ class EmailSender:
         # 初始化对象
         self.mail_obj = flask_mail.Mail(self.app)
 
-    def sendAsyncEmail(self, msg):
+    def send_email(self,
+        subject: str,
+        body: str,
+        recipients: list,
+        sender: str=CROWDLABEL_EMAIL):
+
+        sender = sender.replace('%40', '@')
+        for i in range(len(recipients)):
+            recipients[i] = recipients[i].replace('%40', '@')
+
+        msgObject = flask_mail.Message(
+            subject=subject,
+            body=body,
+            sender=sender,
+            recipients=recipients
+        )
         app = self.app
         with app.app_context():
-            self.mail_obj.send(msg)
-
-    def emailGenerator(self, email):
-        email = email.replace("%40", "@")
-        msgObject = flask_mail.Message(
-            subject="test",
-            body="text",
-            sender="crowdlabel@163.com",
-            recipients=[email]
-        )
-        return msgObject
+            self.mail_obj.send(msgObject)

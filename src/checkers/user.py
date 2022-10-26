@@ -10,11 +10,8 @@ min_password_length = 8
 max_password_length = 32
 
 def check_string(str: str, min_length: int, max_length: int) -> bool:
-    is_valid = re.fullmatch(
-        fr'''^{allowed_chars}$'''
-        '''{{{min_length}-{max_length}}}''',
-        str
-    )
+    pattern = fr'[{allowed_chars}]{{{min_length},{max_length}}}'
+    is_valid = re.fullmatch(pattern, str)
     return bool(is_valid)
 
 def check_username(username: str) -> bool:
@@ -28,3 +25,7 @@ def check_email(email: str) -> bool:
         email_address=email,
     )
     return bool(is_valid)
+
+if __name__ == '__main__':
+    pass
+    #print(check_string('test', 1, 10))
