@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect
 from crowdlabel import CrowdLabel
-from checkLogin import username_exists, is_existed
+from checkLogin import correct_credentials, username_exists, is_existed
 from register import register_add_user
 server = CrowdLabel()
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def login():
     elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if is_existed(username, password):
+        if correct_credentials(username, password):
             return render_template('index.html', username=username)
         elif username_exists(username):
             login_massage = "密码错误，请输入正确密码"
