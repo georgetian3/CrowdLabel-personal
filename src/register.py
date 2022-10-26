@@ -3,8 +3,8 @@ from checkers.user import *
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from database import User
-from argon2 import PasswordHasher
-hasher = PasswordHasher()
+
+from password import hash, verify
 
 #cur = conn.cursor()
 
@@ -26,10 +26,10 @@ def register_add_user(username, password, usertype, email, status):
     print("________")
     print(password)
     temp = password
-    password = hasher.hash(password)
+    password = hash(password)
     print("________")
     print(password)
-    hasher.verify(password, temp)
+    verify(password, temp)
     con = scoped_session(Connection)
     user = User(username=username, password=password,
                 email=email, type=usertype, status=status)

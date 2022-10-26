@@ -3,8 +3,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from database import User
 from sqlalchemy import and_
-from argon2 import PasswordHasher
-hasher = PasswordHasher()
+
+from password import hash
 
 engine = create_engine(
     "mysql+pymysql://root:cxq1974328@127.0.0.1:3306/crowdlabel?charset=utf8")
@@ -17,7 +17,7 @@ def login(username: str, password: str):
 
         return False
 
-    password = hasher.hash(password)
+    password = hash(password)
     con = scoped_session(Connection)
     res = con.query(User).filter(
         and_(User.username == username, User.password == password))
