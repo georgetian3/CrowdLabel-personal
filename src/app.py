@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect
 from crowdlabel import CrowdLabel
-from checkLogin import correct_credentials, username_exists, is_existed
+from checkLogin import correct_credentials, username_exists
 from register import register_add_user
 server = CrowdLabel()
 app = Flask(__name__)
