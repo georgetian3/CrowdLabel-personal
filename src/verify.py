@@ -1,4 +1,4 @@
-from emailsender import EmailSender
+from emailSender import EmailSender
 
 sender = EmailSender()
 
