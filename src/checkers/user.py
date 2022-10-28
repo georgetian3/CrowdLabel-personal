@@ -2,34 +2,63 @@ import re
 from validate_email import validate_email
 
 # printable chars excluding space and delete
-allowed_chars = r'\x21-\x7e'
+ALLOWED_CHARS = r'\x21-\x7e'
 
-min_username_length = 3
-max_username_length = 32
-min_password_length = 8
-max_password_length = 32
+MIN_USERNAME_LENGTH = 3
+MAX_USERNAME_LENGTH = 64
+MIN_PASSWORD_LENGTH = 8
+MAX_PASSWORD_LENGTH = 32
 
 
-def check_string(str: str, min_length: int, max_length: int) -> bool:
-    pattern = fr'[{allowed_chars}]{{{min_length},{max_length}}}'
-    is_valid = re.fullmatch(pattern, str)
+def check_string(s: str, min_length: int, max_length: int) -> bool:
+    if type(s) != str:
+        return False
+
+    # returns True if `s` only contains `allowed_chars`,
+    # and its length is between `min_length` and `max_length` inclusive
+    pattern = fr'[{ALLOWED_CHARS}]{{{min_length},{max_length}}}'
+    is_valid = re.fullmatch(pattern, s)
     return bool(is_valid)
 
 
-def check_username(username: str) -> bool:
-    return check_string(username, min_username_length, max_username_length)
+def check_username_format(username: str) -> bool:
+    return check_string(username, MIN_USERNAME_LENGTH, MAX_USERNAME_LENGTH)
 
 
-def check_password(password: str) -> bool:
-    return check_string(password, min_password_length, max_password_length)
+def check_password_format(password: str) -> bool:
+    return check_string(password, MIN_PASSWORD_LENGTH, MAX_PASSWORD_LENGTH)
 
 
-def check_email(email: str) -> bool:
+def check_email_format(email: str) -> bool:
+    # True to check if email actually exists
+    # False to just check format
+    comprehensive = False
     is_valid = validate_email(
-        email=email,
+        email_address=email,
+        check_blacklist=comprehensive,
+        check_dns=comprehensive,
+        check_smtp=comprehensive
     )
     return bool(is_valid)
 
+usertypes = {
+    0: 'sender',
+    1: 'receiver',
+    2: 'admin',
+}
+
+def check_usertype_format(usertype: int) -> bool:
+    if type(usertype) != int:
+        return False
+
+    return usertype in usertypes
+
+format_checkers = {
+    'username': check_username_format,
+    'password': check_password_format,
+    'email': check_email_format,
+    'usertype': check_usertype_format,
+}
 
 if __name__ == '__main__':
     pass

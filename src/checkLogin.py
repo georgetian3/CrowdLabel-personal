@@ -10,24 +10,26 @@ Connection = sessionmaker(bind=engine)
 
 def correct_credentials(username, password):
     con = scoped_session(Connection)
-    res = con.query(User).filter(User.username == username)
-    if (len(res.all()) == 0):
+    res = con.query(User).filter(User.username == username).all()
+
+    if (len(res) == 0):
         return False
-    user = res.all()[0]
-    try:
-        res = hasher.verify(user.password, password)
-    except:
-        res = False
-    else:
-        res = True
 
-    return res
+    user = res[0]
+
+    return hasher.verify(user.password, password)
 
 
-def username_exists(username):
+def field_exists(field, value):
     con = scoped_session(Connection)
-    res = con.query(User).filter(User.username == username)
-    if len(res.all()) > 1:
+    res = con.query(User).filter(User.__dict__[field] == value).all()
+    if len(res) > 1:
         raise ValueError(f'Duplicate username: {str(res.all()[0])}')
     else:
-        return len(res.all()) == 1
+        return len(res) == 1
+
+def username_exists(username):
+    return field_exists('username', username)
+
+def email_exists(email):
+    return field_exists('email', email)

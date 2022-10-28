@@ -1,4 +1,4 @@
-from checkers.user import check_username
+from checkers.user import check_username_format
 from checkers.user import *
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
@@ -13,11 +13,13 @@ engine = create_engine(
 Connection = sessionmaker(bind=engine)
 
 
+
+
 def register_add_user(username, password, usertype, email, status):
-    if not check_username(username):
+    if not check_username_format(username):
         print('username')
         return 'username'
-    if not check_password(password):
+    if not check_password_format(password):
         print('password')
         return 'password'
     if not check_email(email):
