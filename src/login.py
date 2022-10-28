@@ -1,4 +1,4 @@
-from checkers.user import check_username, check_password
+from checkers.user import check_username_format, check_password_format
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
 from database import User
@@ -12,8 +12,8 @@ Connection = sessionmaker(bind=engine)
 
 
 def login(username: str, password: str):
-    if (not check_username(username) or
-            not check_password(password)):
+    if (not check_username_format(username) or
+            not check_password_format(password)):
 
         return False
 

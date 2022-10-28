@@ -5,6 +5,12 @@ from register import register_add_user
 server = CrowdLabel()
 app = Flask(__name__)
 
+"""
+Communication is performed through JSON requests.
+Missing keys will return an error
+Extraneous keys will be ignored
+"""
+
 
 @app.route('/')
 def index():
@@ -18,8 +24,17 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    API: accepts login details in the following dict format:
+    {
+        'username': '',
+        'password': '',
+    }
+    """
     if request.method == 'GET':
         return render_template('login.html')
+
+
     elif request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -53,6 +68,17 @@ def register():
 @app.route('/user/<username>')
 def user(username):
     return 'requested info for ' + username
+
+@app.route('/tasks')
+def tasks():
+    pass
+
+@app.route('/task/<id>')
+def task(id):
+    return 'requested task with id ' + str(id)
+
+
+
 
 @app.route('/admin')
 def admin():
