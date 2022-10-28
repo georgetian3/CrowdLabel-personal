@@ -1,8 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from crowdlabel import CrowdLabel
-from checkLogin import correct_credentials, username_exists
-from register import register_add_user
-server = CrowdLabel()
+from user import *
 app = Flask(__name__)
 
 """
@@ -59,8 +56,13 @@ def register():
             login_massage = "温馨提示：用户已存在，请直接登录"
             return render_template('register.html', message=login_massage)
         else:
-            register_add_user(request.form['username'],
-                              request.form['password'], 0, request.form['email'], 0)
+            create_user(
+                username,
+                request.form['email'],
+                password,
+                0
+            )
+
             return render_template('index.html', username=username)
 
         pass
