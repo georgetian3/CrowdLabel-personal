@@ -50,6 +50,9 @@ def register():
 
         pass
 
+@app.route('/user/<username>')
+def user(username):
+    return 'requested info for ' + username
 
 @app.route('/admin')
 def admin():
