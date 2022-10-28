@@ -1,1 +1,8 @@
-flask
+argon2
+Flask
+Flask_Mail
+py3_validate_email
+PyMySQL
+#register
+SQLAlchemy
+validate_email
