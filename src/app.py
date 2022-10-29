@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, redirect
 from user import *
 app = Flask(__name__)
+import platform
 
 """
 Communication is performed through JSON requests.
@@ -93,4 +94,7 @@ def about():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    if platform.system() == 'Linux':
+        app.run(debug=False, host='0.0.0.0', port=80)
+    else:
+        app.run(debug=True, host='127.0.0.1', port=8000)
