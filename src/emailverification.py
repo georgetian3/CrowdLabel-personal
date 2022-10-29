@@ -14,6 +14,8 @@ def send_verification_email(email, verification_code):
         'CrowdLabel 邮箱验证码',
         verification_code,
         'noreply@crowdlabel.org',
-        email
+        [email]
     )
 
+if __name__ == '__main__':
+    send_verification_email('me@georgetian.com', '666666')
