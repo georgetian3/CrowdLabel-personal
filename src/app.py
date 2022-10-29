@@ -4,7 +4,7 @@ app = Flask(__name__)
 import platform
 
 """
-Communication is performed through JSON requests.
+Communication is performed through JSON requests and responses
 Missing keys will return an error
 Extraneous keys will be ignored
 """
@@ -51,6 +51,7 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     elif request.method == 'POST':
+
         username = request.form['username']
         password = request.form['password']
         if username_exists(username):

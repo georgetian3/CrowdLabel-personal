@@ -1,11 +1,11 @@
 import re
 from validate_email import validate_email
+from database import MAX_USERNAME_LENGTH
 
 # printable chars excluding space and delete
 ALLOWED_CHARS = r'\x21-\x7e'
 
 MIN_USERNAME_LENGTH = 3
-MAX_USERNAME_LENGTH = 64
 MIN_PASSWORD_LENGTH = 8
 MAX_PASSWORD_LENGTH = 32
 
