@@ -80,7 +80,12 @@ def tasks():
 def task(id):
     return 'requested task with id ' + str(id)
 
-
+@app.route('/verify', methods=['POST'])
+def verify():
+    username = request.form['username']
+    email = request.form['email']
+    verification_code = request.form['code']
+    verify_email(username, email, verification_code)
 
 
 @app.route('/admin')
