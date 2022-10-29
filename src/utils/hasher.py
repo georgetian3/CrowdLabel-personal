@@ -5,7 +5,7 @@ hasher = PasswordHasher()
 
 def hash(password: str) -> str:
     """
-    Returns the hash of `password`,
+    Returns the cipher of `plain`,
     and empty string if hashing failed
     """
 
@@ -15,12 +15,12 @@ def hash(password: str) -> str:
         return ''
 
 
-def verify(password:str, hash:str) -> bool:
+def verify(cipher: str, password: str) -> bool:
     """
-    Returns true if the hash of `password` is `hash
-    Returns false if password and hash don't match, or exception was raised
+    Returns `True` if the hash of `plain` is `cipher`
+    Returns `False` if `plain` and `cipher` don't match, or exception was raised
     """
     try:
-        return bool(hasher.verify(hash, password))
+        return bool(hasher.verify(cipher, password))
     except:
         return False

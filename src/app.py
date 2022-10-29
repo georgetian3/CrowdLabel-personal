@@ -1,9 +1,8 @@
 from flask import Flask, render_template, redirect
-import api
 import platform
 
 app = Flask(__name__)
-app.register_blueprint(api.api, url_prefix='/api/v1')
+#app.register_blueprint(api.api, url_prefix='/api/v1')
 
 """
 Communication is performed through JSON requests and responses
@@ -24,14 +23,6 @@ def home():
 
 @app.route('/login')
 def login():
-    """
-    API: accepts login details in the following dict format:
-    {
-        'username': '',
-        'password': '',
-    }
-    """
-
     return render_template('login.html')
 
 
