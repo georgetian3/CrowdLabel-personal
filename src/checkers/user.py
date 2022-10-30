@@ -1,6 +1,6 @@
 import re
 from validate_email import validate_email
-from database import MAX_USERNAME_LENGTH
+from models.user import MAX_USERNAME_LENGTH
 
 # printable chars excluding space and delete
 ALLOWED_CHARS = r'\x21-\x7e'

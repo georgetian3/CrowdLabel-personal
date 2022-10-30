@@ -1,4 +1,3 @@
-from typing import Iterable
 from flask import Flask
 import flask_mail
 
