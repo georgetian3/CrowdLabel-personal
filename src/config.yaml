@@ -1,0 +1,8 @@
+email:
+  password: crowdlabelse2022
+db:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: cxq1974328
+  database: crowdlabel
