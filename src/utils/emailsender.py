@@ -3,7 +3,7 @@ from flask import Flask
 import flask_mail
 
 from datetime import datetime
-
+from utils.config import get_config
 
 # 异步发送邮件
 class EmailSender:
@@ -14,8 +14,7 @@ class EmailSender:
         self.app.config['MAIL_USE_SSL'] = False
         self.app.config['MAIL_USE_TLS'] = True
         self.app.config['MAIL_USERNAME'] = 'crowdlabel.org@outlook.com'
-        with open('email.key') as f:
-            self.app.config['MAIL_PASSWORD'] = f.read().strip()
+        self.app.config['MAIL_PASSWORD'] = get_config('email.password')
         self.mail_obj = flask_mail.Mail(self.app)
 
     def send_email(self,
