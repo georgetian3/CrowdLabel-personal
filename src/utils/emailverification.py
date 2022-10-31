@@ -18,4 +18,4 @@ def send_verification_email(email, verification_code):
     )
 
 if __name__ == '__main__':
-    send_verification_email('me@georgetian.com', '666666')
+    send_verification_email('chenjz20@mails.tsinghua.edu.cn', '666666')
