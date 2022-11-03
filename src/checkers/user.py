@@ -1,5 +1,5 @@
 import re
-from validate_email import validate_email
+from email_validator import validate_email
 from models.user import MAX_USERNAME_LENGTH
 
 # printable chars excluding space and delete
@@ -30,16 +30,13 @@ def check_password_format(password: str) -> bool:
 
 
 def check_email_format(email: str) -> bool:
-    # True to check if email actually exists
-    # False to just check format
-    comprehensive = False
-    is_valid = validate_email(
-        email_address=email,
-        check_blacklist=comprehensive,
-        check_dns=comprehensive,
-        check_smtp=comprehensive
-    )
-    return bool(is_valid)
+    try:
+        is_valid = validate_email(
+            email=email,
+        )
+        return bool(is_valid)
+    except:
+        return False
 
 usertypes = {
     0: 'sender',
