@@ -3,8 +3,7 @@ __pycache__
 *.log
 *.out
 *.toc
-<<<<<<< HEAD
-
+config.yaml
 src/test.py
 
 .DS_Store
@@ -33,9 +32,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-=======
-*.key
-config.yaml
-.vscode
-__test__.py
->>>>>>> backend
