@@ -3,6 +3,7 @@ __pycache__
 *.log
 *.out
 *.toc
+<<<<<<< HEAD
 
 src/test.py
 
@@ -32,3 +33,9 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+=======
+*.key
+config.yaml
+.vscode
+__test__.py
+>>>>>>> backend
