@@ -9,7 +9,6 @@ MIN_USERNAME_LENGTH = 3
 MIN_PASSWORD_LENGTH = 8
 MAX_PASSWORD_LENGTH = 32
 
-
 def check_string(s: str, min_length: int, max_length: int) -> bool:
     if type(s) != str:
         return False
@@ -38,23 +37,23 @@ def check_email_format(email: str) -> bool:
     except:
         return False
 
-usertypes = {
+user_types = {
     0: 'sender',
     1: 'receiver',
     2: 'admin',
 }
 
-def check_usertype_format(usertype: int) -> bool:
-    if type(usertype) != int:
+def check_user_type_format(user_type: int) -> bool:
+    if type(user_type) != int:
         return False
 
-    return usertype in usertypes
+    return user_type in user_types
 
 format_checkers = {
     'username': check_username_format,
     'password': check_password_format,
     'email': check_email_format,
-    'usertype': check_usertype_format,
+    'user_type': check_user_type_format,
 }
 
 if __name__ == '__main__':
