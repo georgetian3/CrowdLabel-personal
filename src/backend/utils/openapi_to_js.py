@@ -1,0 +1,3 @@
+import openapi_generator_cli
+
+openapi_generator_cli
