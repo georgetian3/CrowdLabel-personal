@@ -8,12 +8,12 @@ from utils.config import get_config
 class EmailSender:
     def __init__(self):
         self.app = Flask(__name__)
-        self.app.config['MAIL_SERVER'] = 'smtp.office365.com'
-        self.app.config['MAIL_PORT'] = 587
+        self.app.config['MAIL_SERVER'] = get_config('email.server')
+        self.app.config['MAIL_PORT'] = get_config('email.port')
+        self.app.config['MAIL_USERNAME'] = get_config('email.username')
+        self.app.config['MAIL_PASSWORD'] = get_config('email.password')
         self.app.config['MAIL_USE_SSL'] = False
         self.app.config['MAIL_USE_TLS'] = True
-        self.app.config['MAIL_USERNAME'] = 'crowdlabel.org@outlook.com'
-        self.app.config['MAIL_PASSWORD'] = get_config('email.password')
         self.mail_obj = flask_mail.Mail(self.app)
 
     def send_email(self,
