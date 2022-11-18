@@ -11,11 +11,11 @@ Login page
   var password = document.getElementById('password').value
   var email = document.getElementById('email').value
   var code = document.getElementById('code').value 
-  console.log(fetch_json('register','POST',{'username':username,
+  fetch_json('register','POST',{'username':username,
                                             'password':password,
                                             'email':email,
                                             'verification_code':code,
-                                            'user_type':0}))
+                                            'user_type':0})
 
   }
 </script>     
