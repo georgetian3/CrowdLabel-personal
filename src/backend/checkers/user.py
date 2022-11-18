@@ -7,7 +7,7 @@ ALLOWED_CHARS = r'\x21-\x7e'
 
 MIN_USERNAME_LENGTH = 3
 MIN_PASSWORD_LENGTH = 8
-MAX_PASSWORD_LENGTH = 32
+MAX_PASSWORD_LENGTH = 64
 
 def check_string(s: str, min_length: int, max_length: int) -> bool:
     if type(s) != str:
