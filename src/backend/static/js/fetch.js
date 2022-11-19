@@ -1,6 +1,4 @@
 async function fetch_json(url, method, data = {}) {
-    console.log(JSON.stringify(data))
-
     const response = await fetch(url, {
         method: method,
         headers: {'Content-Type': 'application/json'},
