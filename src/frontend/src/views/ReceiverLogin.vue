@@ -103,7 +103,13 @@
                 if (value===''){
                     callback(new Error('请输入用户名'));
                 } else {
-                    callback();
+                    let temp = fetch_json('availability','POST',{'username':value,
+                                                'email':''});
+                    if (temp.username) {
+                        callback(new Error('用户名已被占用'));
+                    } else {
+                        callback();
+                    }
                 }
             };
             var validateLoginPass = (rule, value, callback) => {
