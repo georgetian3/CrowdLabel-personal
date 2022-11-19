@@ -17,7 +17,7 @@
                                     <el-input placeholder="请输入密码" type="password" v-model="ruleForm.loginpass" id="loginpassword" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button :disabled="loginDisable" type="primary" @click="submitLogin()">确认</el-button>
+                                    <el-button type="primary" @click="submitLogin()">确认</el-button>
                                     <el-button @click="backToMain()">返回</el-button>
                                 </el-form-item>
                             </el-form>
@@ -33,19 +33,19 @@
                                     <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" id="registerpassword" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="checkPass">
-                                    <el-input placeholder="请确认密码" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                                    <el-input placeholder="请确认密码" type="password" v-model="ruleForm.checkPass" id="registerpassword2" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="email">
                                     <el-input placeholder="请输入邮箱地址" v-model="ruleForm.email" id="registeremail" autocomplete="off"></el-input>
                                 </el-form-item>
-                                <el-form-item>
+                                <el-form-item prop="verif">
                                     <div class="verify_code">
-                                        <el-input placeholder="请输入验证码" autocomplete="off" class="input_verify" id="registerverification"></el-input>
+                                        <el-input placeholder="请输入验证码" autocomplete="off" v-model="ruleForm.verif" class="input_verify" id="registerverification"></el-input>
                                         <el-button :disabled="disable" class="button_verify" @click="verifyEmail()">{{text}}</el-button>
                                     </div>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button :disabled="registerDisable" type="primary" @click="submitRegister()">提交</el-button>
+                                    <el-button type="primary" @click="submitRegister('ruleForm')">提交</el-button>
                                     <el-button @click="backToMain()">返回</el-button>
                                 </el-form-item>
                             </el-form>
@@ -132,14 +132,25 @@
                 } else {
                     callback();
                 }
-            }
+            };
+            var validateVerif = (rule, value, callback) => {
+                if (value === ''){
+                    callback(new Error('请输入验证码'))
+                } else {
+                    let veriReg = /^[0-9]{6}$/
+                    if (!veriReg.test(value)){
+                        callback(new Error('验证码格式错误'))
+                    }
+                    else {
+                        callback();
+                    }
+                }
+            };
             return {
                 text: "发送验证码",
                 time: 60,
                 timer: null,
                 disable: true,
-                registerDisable: true,
-                loginDisable: true,
                 activeName: 'second',
                 ruleForm: {
                     loginname: '',
@@ -147,7 +158,8 @@
                     name: '',
                     pass: '',
                     checkPass: '',
-                    email: ''
+                    email: '',
+                    verif: ''
                 },
                 rules: {
                     name: [
@@ -167,6 +179,9 @@
                     ],
                     loginname: [
                         { validator: validateLoginName, trigger: 'blur'}
+                    ],
+                    verif: [
+                        { validator: validateVerif, trigger: 'blur' }
                     ]
                 }
             };
@@ -180,6 +195,16 @@
             }
         },
         methods: {
+            checkRegisterSubmit(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        alert('submit!');
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+            },
             handleTabClick(tab, event){
                 console.log(tab, event)
             },
@@ -222,7 +247,7 @@
                         clearInterval(this.timer);
                         this.time = 60
                         this.disable = false
-                        this.text = '重新发送'
+                        this.text = '发送验证码'
                     }
                 }, 1000)
             }
@@ -293,6 +318,7 @@
     margin-left:0px !important;
     margin-bottom: 0px !important;
     width:100%;
+    line-height: 0px;
 }
 ::v-deep .el-input{
     width: 80%;
