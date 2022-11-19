@@ -10,14 +10,14 @@
                         <div class="center_form">
                             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                                 <el-form-item prop="loginname">
-                                    <el-input placeholder="请输入用户名" v-model="ruleForm.loginname" autocomplete="off"></el-input>
+                                    <el-input placeholder="请输入用户名" v-model="ruleForm.loginname" id="loginusername" autocomplete="off"></el-input>
                                 </el-form-item>
                     
                                 <el-form-item prop="loginpass">
-                                    <el-input placeholder="请输入密码" type="password" v-model="ruleForm.loginpass" autocomplete="off"></el-input>
+                                    <el-input placeholder="请输入密码" type="password" v-model="ruleForm.loginpass" id="loginpassword" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" @click="submitLogin()">确认</el-button>
+                                    <el-button :disabled="loginDisable" type="primary" @click="submitLogin()">确认</el-button>
                                     <el-button @click="backToMain()">返回</el-button>
                                 </el-form-item>
                             </el-form>
@@ -27,25 +27,25 @@
                         <div class="center_form">
                             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                                 <el-form-item prop="name">
-                                    <el-input placeholder="请输入用户名" v-model="ruleForm.name" autocomplete="off"></el-input>
+                                    <el-input placeholder="请输入用户名" v-model="ruleForm.name" autocomplete="off" id="registername"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="pass">
-                                    <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                                    <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" id="registerpassword" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="checkPass">
                                     <el-input placeholder="请确认密码" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item prop="email">
-                                    <el-input placeholder="请输入邮箱地址" v-model="ruleForm.email"></el-input>
+                                    <el-input placeholder="请输入邮箱地址" v-model="ruleForm.email" id="registeremail" autocomplete="off"></el-input>
                                 </el-form-item>
                                 <el-form-item>
                                     <div class="verify_code">
-                                        <el-input placeholder="请输入验证码" autocomplete="off" class="input_verify"></el-input>
+                                        <el-input placeholder="请输入验证码" autocomplete="off" class="input_verify" id="registerverification"></el-input>
                                         <el-button :disabled="disable" class="button_verify" @click="verifyEmail()">{{text}}</el-button>
                                     </div>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" @click="submitRegister()">提交</el-button>
+                                    <el-button :disabled="registerDisable" type="primary" @click="submitRegister()">提交</el-button>
                                     <el-button @click="backToMain()">返回</el-button>
                                 </el-form-item>
                             </el-form>
@@ -60,16 +60,18 @@
 <script>
     export default {
         data () {
+            var userType = 1;
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入密码'));
                 } else {
                 if (!/^[\x21-\x7e]{8,64}$/.test(value)) {
-                    callback(new Error('密码格式错误'));
+                    callback(new Error('密码格式错误:请输入8-64位密码'));
                 }
-                if (this.ruleForm.checkPass !== '') {
-                    this.$refs.ruleForm.validateField('checkPass');
-                }
+                // seems like we dont need this part
+                // if (this.ruleForm.checkPass !== '') {
+                //     this.$refs.ruleForm.validateField('checkPass');
+                // }
                 callback();
                 }
             };
@@ -86,17 +88,29 @@
                 if (value === '') {
                 callback(new Error('请输入用户名'));
                 } else {
-                if (this.ruleForm.name !== '') {
-                    this.$refs.ruleForm.validateField('name')
-                }
-                callback();
+                    if (!/^[\x21-\x7e]{3,64}$/.test(value)) {
+                        callback(new Error('用户名格式错误:请输入3-64位用户名'));
+                    }
+                    callback();
                 }
             };
             var validateEmail = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入邮箱'));
                 } else {
-                callback();
+                    let mailReg = /^([a-zA-Z0-9_-]+)@([a-zA-Z0-9_-]+)((.[a-zA-Z0-9_-]+)+)$/
+                    if (!mailReg.test(value)){
+                        callback(new Error('邮箱格式错误'));
+                    } else {
+                        this.disable = false;
+                        let checkmail = fetch_json('availability', 'POST', {'username':'', 'email':value});
+                        if (checkmail.email) {
+                            callback(new Error('邮箱已被占用'));
+                        } else {
+                            this.disable = false;
+                            callback();
+                        }
+                    }
                 }
             };
             var validateLoginName = (rule, value, callback) => {
@@ -123,7 +137,9 @@
                 text: "发送验证码",
                 time: 60,
                 timer: null,
-                disable: false,
+                disable: true,
+                registerDisable: true,
+                loginDisable: true,
                 activeName: 'second',
                 ruleForm: {
                     loginname: '',
@@ -144,7 +160,7 @@
                         { validator: validatePass2, trigger: 'blur' }
                     ],
                     email : [
-                        { validator: validateEmail, trigger: 'blur'}
+                        { validator: validateEmail, trigger: 'change'}
                     ],
                     loginpass: [
                         { validator: validateLoginPass, trigger: 'blur'}
@@ -286,7 +302,7 @@
     background-color: #5D3BE6;
     border-color: #5D3BE6;
     margin-top: 0px;
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
 }
 ::v-deep .el-button--default{
     width:80%;
@@ -302,7 +318,20 @@
 }
 ::v-deep .el-form-item.el-form-item--feedback{
     display: flex;
+    margin-bottom: 18px !important;
 }
+::v-deep .el-button--default.is-disabled:hover{
+    color: #C0C4CC;
+    background-color: #FFF;
+    border-color: #EBEEF5;
+}
+
+::v-deep .el-button--primary.is-disabled, .el-button--primary.is-disabled:hover{
+    color: #C0C4CC;
+    background-color: #FFF;
+    border-color: #EBEEF5;
+}
+
 .login_logo{
     position:relative;
     top: 10px;
