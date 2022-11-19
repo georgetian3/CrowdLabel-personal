@@ -18,6 +18,7 @@
                                 </el-form-item>
                                 <el-form-item>
                                     <el-button type="primary" @click="submitLogin()">确认</el-button>
+
                                     <el-button @click="backToMain()">返回</el-button>
                                 </el-form-item>
                             </el-form>
@@ -41,6 +42,7 @@
                                 <el-form-item prop="verif">
                                     <div class="verify_code">
                                         <el-input placeholder="请输入验证码" autocomplete="off" v-model="ruleForm.verif" class="input_verify" id="registerverification"></el-input>
+
                                         <el-button :disabled="disable" class="button_verify" @click="verifyEmail()">{{text}}</el-button>
                                     </div>
                                 </el-form-item>
@@ -61,6 +63,7 @@
     export default {
         data () {
             var userType = 1;
+
             var validatePass = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入密码'));
@@ -72,6 +75,7 @@
                 // if (this.ruleForm.checkPass !== '') {
                 //     this.$refs.ruleForm.validateField('checkPass');
                 // }
+
                 callback();
                 }
             };
@@ -92,6 +96,7 @@
                         callback(new Error('用户名格式错误:请输入3-64位用户名'));
                     }
                     callback();
+
                 }
             };
             var validateEmail = (rule, value, callback) => {
@@ -144,6 +149,7 @@
                     else {
                         callback();
                     }
+
                 }
             };
             return {
@@ -160,6 +166,7 @@
                     checkPass: '',
                     email: '',
                     verif: ''
+
                 },
                 rules: {
                     name: [
@@ -182,6 +189,7 @@
                     ],
                     verif: [
                         { validator: validateVerif, trigger: 'blur' }
+
                     ]
                 }
             };
@@ -206,6 +214,7 @@
                     }
                 });
             },
+
             handleTabClick(tab, event){
                 console.log(tab, event)
             },
@@ -249,6 +258,7 @@
                         this.time = 60
                         this.disable = false
                         this.text = '发送验证码'
+
                     }
                 }, 1000)
             }
@@ -297,6 +307,7 @@
 ::v-deep .el-input__inner:focus{
     border-color: #5D3BE6;
 }
+
 ::v-deep .el-tabs__header{
     margin-left:auto;
     margin-right:auto;
@@ -320,6 +331,7 @@
     margin-bottom: 0px !important;
     width:100%;
     line-height: 0px;
+
 }
 ::v-deep .el-input{
     width: 80%;
@@ -330,6 +342,7 @@
     border-color: #5D3BE6;
     margin-top: 0px;
     margin-bottom: 20px !important;
+
 }
 ::v-deep .el-button--default{
     width:80%;
@@ -358,6 +371,7 @@
     background-color: #FFF;
     border-color: #EBEEF5;
 }
+
 
 .login_logo{
     position:relative;
